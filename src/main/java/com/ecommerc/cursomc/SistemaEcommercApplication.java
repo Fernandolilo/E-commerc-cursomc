@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.ecommerc.cursomc.domain.Categoria;
 import com.ecommerc.cursomc.domain.Cidade;
+import com.ecommerc.cursomc.domain.Cliente;
+import com.ecommerc.cursomc.domain.Endereco;
 import com.ecommerc.cursomc.domain.Estado;
 import com.ecommerc.cursomc.domain.Produto;
+import com.ecommerc.cursomc.domain.enums.TipoCliente;
 import com.ecommerc.cursomc.repositories.CategoriaRepository;
 import com.ecommerc.cursomc.repositories.CidadeRepository;
+import com.ecommerc.cursomc.repositories.ClienteRepository;
+import com.ecommerc.cursomc.repositories.EnderecoRepository;
 import com.ecommerc.cursomc.repositories.EstadoRepository;
 import com.ecommerc.cursomc.repositories.ProdutoRepository;
 
@@ -35,6 +40,12 @@ public class SistemaEcommercApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -72,8 +83,17 @@ public class SistemaEcommercApplication implements CommandLineRunner {
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
+		Cliente cli1 = new Cliente (null, "Maria Silva", "maria@gmail.com", "12312312311",TipoCliente.PESSOAFISICA, null, null);		
+		cli1.getTelefones().addAll(Arrays.asList("2725-1000", "98585-1234"));
 		
-				
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "apto 13", "Jardim Boa vista", "12311-000", cli1, c1);
+		Endereco e2 = new Endereco (null, "Rua felisberto", "150", "a", "jadir Albertina", "50000-000", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));		
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
 	}
 
 }
