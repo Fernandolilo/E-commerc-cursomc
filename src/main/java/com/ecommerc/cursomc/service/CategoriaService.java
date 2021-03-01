@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerc.cursomc.domain.Categoria;
 import com.ecommerc.cursomc.repositories.CategoriaRepository;
+import com.ecommerc.cursomc.service.exceptions.ObjectNotFoundException;
 
 @Service //regra de negocio
 public class CategoriaService {
@@ -16,11 +17,9 @@ public class CategoriaService {
 	private CategoriaRepository repo;
 	
 	
-	// criando o metodo de buscar categotias
-	public Optional<Categoria> find(Integer id) {
-		
-		Optional<Categoria> obj = repo.findById(id);
-		
-		return obj;
-	}
+	public Categoria find(Integer id) {
+		 Optional<Categoria> obj = repo.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+		 "Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
+		}
 }
