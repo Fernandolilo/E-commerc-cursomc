@@ -2,28 +2,32 @@ package com.ecommerc.cursomc.resources;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerc.cursomc.domain.Categoria;
+import com.ecommerc.cursomc.service.CategoriaService;
+
+
 
 @RestController // Contrele de Rest
 @RequestMapping(value="/categorias") //cria o endepoint
 public class CategoriaResource {
 	
+	@Autowired
+	private CategoriaService service;
 
-	@RequestMapping(method = RequestMethod.GET) //metodo do request, metodo de busca.
-	public List<Categoria> categorias() {
+	@RequestMapping(value= "/{id}", method = RequestMethod.GET) //metodo do request, metodo de busca.
+	public ResponseEntity<?> find(@PathVariable Integer id) {
 		
-		Categoria cat1 = new Categoria(1, "Informatica");
-		Categoria cat2 = new Categoria(2, "Escritorio");
-		
-		List<Categoria> categorias = new ArrayList<>();
-		categorias.add(cat1);
-		categorias.add(cat2);
-		return categorias;
+		Optional<Categoria> obj = service.find(id);
+		return ResponseEntity.ok().body(obj);
 		
 		
 	}
