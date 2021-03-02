@@ -1,6 +1,8 @@
 package com.ecommerc.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.ecommerc.cursomc.DTO.CategoriaDTO;
 import com.ecommerc.cursomc.domain.Categoria;
 import com.ecommerc.cursomc.service.CategoriaService;
 
@@ -21,7 +24,7 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
 
-	//get == buscar
+	// get == buscar por id
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET) // metodo do request, metodo de busca.
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 
@@ -29,23 +32,30 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	//insert
+	// insert
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
 		obj = service.insert(obj);
 		// metodo para disponibilizar a URI do insert no body do Http
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-				path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
-	//update
+
+	// update
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void>update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
 		obj.setId(id);
 		obj = service.update(obj);
-		
+
 		return ResponseEntity.noContent().build();
 	}
+
+	// get == buscar por id
+	@RequestMapping(method = RequestMethod.GET) // metodo do request, metodo de busca.
+		public ResponseEntity <List<CategoriaDTO>> findAll() {
+			 List<Categoria> list = service.findAll();
+			 List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+			return ResponseEntity.ok().body(listDTO);
+		}
 
 }
