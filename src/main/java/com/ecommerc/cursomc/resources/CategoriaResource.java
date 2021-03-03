@@ -55,6 +55,11 @@ public class CategoriaResource {
 
 		return ResponseEntity.noContent().build();
 	}
+	@RequestMapping(value = "/{id}", method =RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 
 	// get == buscar por id
 	@RequestMapping(method = RequestMethod.GET) // metodo do request, metodo de busca.
