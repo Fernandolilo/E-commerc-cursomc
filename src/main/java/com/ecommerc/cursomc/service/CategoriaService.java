@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.ecommerc.cursomc.DTO.CategoriaDTO;
 import com.ecommerc.cursomc.domain.Categoria;
 import com.ecommerc.cursomc.repositories.CategoriaRepository;
 import com.ecommerc.cursomc.service.exceptions.ObjectNotFoundException;
@@ -46,6 +47,10 @@ public class CategoriaService {
 	public Page <Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageResquest = PageRequest.of(page, linesPerPage, org.springframework.data.domain.Sort.Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageResquest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 	
 }
