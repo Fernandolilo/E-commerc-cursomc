@@ -20,8 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ecommerc.cursomc.DTO.ClienteDTO;
 import com.ecommerc.cursomc.DTO.ClienteNewDTO;
-import com.ecommerc.cursomc.DTO.ClienteDTO;
-import com.ecommerc.cursomc.domain.Cliente;
 import com.ecommerc.cursomc.domain.Cliente;
 import com.ecommerc.cursomc.service.ClienteService;
 
