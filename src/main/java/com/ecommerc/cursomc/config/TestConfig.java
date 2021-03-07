@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import com.ecommerc.cursomc.service.DBService;
 
 @Configuration
-@Profile("test")
+@Profile("prod")
 public class TestConfig {
 	
 	@Autowired
